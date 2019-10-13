@@ -1,6 +1,6 @@
 <?php
 
-    include ("connect.php");
+    include("DB_Connect/connect.php");
     session_start();
 
     if ($_POST["button"]=='slogin'){
@@ -16,7 +16,7 @@
 
         if($count == 1) {
             $_SESSION['login_user'] = $username;
-            header("location: user.php");
+            header("location: user/user-home.php");
             exit();
         }else {
             echo '<script language="javascript">';
@@ -36,7 +36,7 @@
 
         if($count == 1) {
             $_SESSION['login_user'] = $username;
-            header("location: user.php");
+            header("location: user/user-home.php");
             exit();
         }else {
             echo '<script language="javascript">';
@@ -56,7 +56,7 @@
 
         if($count == 1) {
             $_SESSION['login_user'] = $username;
-            header("location: user.php");
+            header("location: admin/admin-home.php");
             exit();
         }else {
             echo '<script language="javascript">';
@@ -100,6 +100,10 @@
             echo '<script language="javascript">';
             echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
             echo '</script>';
+            echo '<script language="JavaScript">';
+            echo 'document.getElementById("slogin").click();';
+            echo '<script>';
+
         } else {
             echo '<script language="javascript">';
             echo "Error: " . $sql . "<br>" . $conn->error;
@@ -242,7 +246,7 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-image: url("header-background.jpg");
+            background-image: url("images/header-background.jpg");
             background-position:top;
             background-repeat: no-repeat;
             background-size: cover;
@@ -349,9 +353,9 @@
             <input class="input-field" type="password" placeholder="Password" name="psw" required>
         </div>
 
-        <button type="submit" class="btn" style="font-size: 16px; letter-spacing: 0.02cm; font-weight: bold" value="slogin" name='button'>Login</button>
+        <button type="submit" class="btn" style="font-size: 16px; letter-spacing: 0.02cm; font-weight: bold" value="slogin" name='button' id="slogin">Login</button>
         <br><br>
-        <a class="txt2" href="#" onclick="openPage('StudentRegister', 1)">
+        <a class="txt2" id="sregister" href="#" onclick="openPage('StudentRegister', 1)">
             Create your Account
         </a>
     </form>
