@@ -104,16 +104,17 @@
 
             #issuedbooks {
                 float: left;
-                margin: 3%;
-                width: 45%;
+                margin: 1%;
+                margin-right: 2%;
+                width: 47%;
             }
 
             #outstandingbooks {
-                float: right;
-                margin-right: 3%;
-                margin-top: 3%;
-                margin-bottom: 3%;
-                width: 45%;
+                /*float: right;*/
+                margin: 1%;
+                margin-top: 2%;
+                margin-left: 50%;
+                /*width: 45%;*/
             }
 
             #welcome {
@@ -127,9 +128,17 @@
                 padding: 20px;
             }
 
-            #searchcard, #result, #return_books, #request-books, #book-fines {
-                margin: 2%;
+            #searchcard, #result, #return_books, #request-books, #book-fines, #welcome{
+                margin: 1%;
                 padding: 2%;
+            }
+
+            #result{
+                margin-top: 2%;
+            }
+
+            #profile {
+                margin: 1%;
             }
 
             .radio-inline {
@@ -187,6 +196,27 @@
                 margin-bottom: 25px;
                 padding-left: 30%;
                 padding-right: 30%;
+            }
+
+            .minicard {
+                width: 100%;
+                height: 200px;
+                padding: 10px;
+            }
+
+            #image {
+                width: 40%;
+                float: left;
+            }
+
+            #user-name {
+                width: 40%;
+                margin-left: 40%;
+                margin-top: -10%;
+            }
+
+            #user-details {
+                margin-top: 50px;
             }
 
             /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -384,6 +414,18 @@
                 </div>
             </div>
             <div id="profile" class="shomepage">
+                <div class="card" id="user-profile">
+                    <div class="minicard" id="image" >
+                        <img src="user.svg">
+                    </div>
+                    <div class="minicard" id="user-name">
+                        <p style="text-align: center; font-size: 60px; color: #f1f1f1">Daniel Lobo</p>
+                        <p style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : Student</p>
+                    </div>
+                    <div class="card" id="user-details">
+                        
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -396,12 +438,13 @@
                 document.getElementById("mySidenav").style.width = "250px";
                 document.getElementById("main").style.marginLeft = "250px";
                 // document.body.style.backgroundColor = "rgba(5,6,6,0.6)";
-                // document.getElementById("main").style.opacity=0.6;
+                document.getElementById("main").style.opacity=0.3;
             }
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
                 document.getElementById("main").style.marginLeft = "0";
                 // document.body.style.backgroundColor = "rgba(5,6,6,1)";
+                document.getElementById("main").style.opacity=1;
             }
            function openPage(pageName, elmnt) {
                // Hide all elements with class="shomepage" by default */
