@@ -422,8 +422,12 @@
                         <p style="text-align: center; font-size: 60px; color: #f1f1f1">Daniel Lobo</p>
                         <p style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : Student</p>
                     </div>
-                    <div class="card" id="user-details">
-                        
+                    <div class="card" id="user-details" style="width: 50%; margin-top: 80px; margin-left: 30%">
+                        <p style="text-align: center; font-size: 30px; color: #f1f1f1">User Details</p>
+                        <br>
+                        <p style="text-align: left; font-size: 25px; color: #d83f07">Email&nbsp:&nbsp</p>
+                        <p style="text-align: left; font-size: 25px; color: #d83f07">Username&nbsp:&nbsp</p>
+                        <p style="text-align: left; font-size: 25px; color: #d83f07">Password&nbsp:&nbsp</p>
                     </div>
                 </div>
             </div>
