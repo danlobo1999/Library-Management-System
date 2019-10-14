@@ -35,17 +35,25 @@ include('DB_Connect/session.php');
 
 <div id="main">
     <div id="request" class="shomepage">
-        <div id="request-books" class="card">
-            <form class="request-form" method="post">
-                <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Place a request for a book</p>
-                <div class="input-container">
-                    <input class="input-field" type="text" placeholder="Book name" name="bknm">
-                </div>
-                <div class="input-container">
-                    <input class="input-field" type="text" placeholder="Author's name" name="anm">
-                </div>
-                <button type="button" id="mybutton" class="btn btn-secondary">Place Request</button>
-            </form>
+        <div id="request-books" class="card" style="height: 650px">
+            <div style="margin-left: 10%; width: 40%">
+                <img src="../images/request.svg">
+            </div>
+            <div style="margin-left: 35%; margin-top: -30%">
+                <form class="request-form" method="post">
+                    <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Place a request for a book</p>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Book name" name="bknm">
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Author's name" name="anm">
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Book ISBN" name="isbn">
+                    </div>
+                    <button type="button" id="mybutton" class="btn btn-secondary">Place Request</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

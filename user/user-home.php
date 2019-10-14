@@ -1,5 +1,5 @@
 <?php
-     include('DB_Connect/session.php');
+     include('../DB_Connect/session.php');
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="user.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="user.css" />
     </head>
 
     <body onload="javascript:colorLink()">
@@ -37,7 +39,13 @@
         <div id="main">
             <div id="dashboard" class="shomepage">
                 <div id="welcome" class="card" style="height: 400px; font-size: 20px">
-                    <canvas id="popChart" width="600" height="400"></canvas>
+                    <div class="minicard" id="u-pie">
+                            <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="minicard" id="w-user">
+                        <p class="word1" style="text-align: center; font-size: 90px; color: #f1f1f1; font-family: 'American Typewriter'; letter-spacing: 2px; margin-top: 3%" >Welcome</p>
+                        <p class="word2" style="text-align: center; font-size: 70px; color: #d83f07; font-family: 'American Typewriter'; letter-spacing: 3px">Daniel</p>
+                    </div>
                 </div>
                 <div id="issuedbooks" class="card" >
                     <p style="font-size: 30px; height: 300px">Issued Books</p>
@@ -45,13 +53,38 @@
                 <div id="outstandingbooks" class="card">
                     <p style="font-size: 30px; height: 300px">Outstanding Books</p>
                 </div>
-
             </div>
         </div>
 
         <div class="footer">
 
         </div>
+
+        <script type="text/javascript">
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Books you have issued", "Books you can issue"],
+                    datasets: [{
+                        backgroundColor: [
+                            "#0d71db",
+                            "#d83f07"
+                        ],
+                        data: [2, 1]
+                    }]
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: '#f1f1f1f1',
+                            fontSize: 23,
+                            padding: 20
+                        }
+                    }
+                }
+            });
+        </script>
 
         <script>
            function openNav() {
@@ -67,6 +100,34 @@
            function colorLink() {
                document.getElementById("user-home").style.color = "#d83f07";
            }
+
+           var textWrapper = document.querySelector('.word1');
+           textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+           var textWrapper1 = document.querySelector('.word2');
+           textWrapper1.innerHTML = textWrapper1.textContent.replace(/\S/g, "<span class='letter1'>$&</span>");
+
+           anime.timeline({loop: 1})
+               .add({
+                   targets: '.word1 .letter, .word2 .letter1',
+                   translateX: [40,0],
+                   translateZ: 0,
+                   opacity: [0,1],
+                   easing: "easeOutExpo",
+                   duration: 6000,
+                   delay: (el, i) => 500 + 30 * i
+               })
+
+
+           anime.timeline({loop: 1})
+               .add({
+                   targets: '.word .letter',
+                   translateX: [40,0],
+                   translateZ: 0,
+                   opacity: [0,1],
+                   easing: "easeOutExpo",
+                   duration: 3000,
+                   delay: (el, i) => 500 + 30 * i
+               })
         </script>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -10,6 +10,7 @@ include('DB_Connect/session.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <link rel="stylesheet" href="user.css">
 </head>
 <body onload="javascript:colorLink()">
@@ -40,14 +41,14 @@ include('DB_Connect/session.php');
                 <img src="../images/user.svg">
             </div>
             <div class="minicard" id="user-name">
-                <p style="text-align: center; font-size: 60px; color: #f1f1f1">Daniel Lobo</p>
-                <p style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : Student</p>
+                <p class="word1" style="text-align: center; font-size: 60px; color: #f1f1f1">Daniel Lobo</p>
+                <p class="word2" style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : Student</p>
             </div>
             <div class="card" id="user-details" style="width: 50%; margin-top: 80px; margin-left: 30%">
-                <p style="text-align: center; font-size: 30px; color: #f1f1f1">User Details</p><br>
-                <p style="text-align: left; font-size: 25px; color: #d83f07">Email&nbsp:&nbsp</p>
-                <p style="text-align: left; font-size: 25px; color: #d83f07">Username&nbsp:&nbsp</p>
-                <p style="text-align: left; font-size: 25px; color: #d83f07">Password&nbsp:&nbsp</p>
+                <p class="w" style="text-align: center; font-size: 30px; color: #f1f1f1">User Details</p><br>
+                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Email&nbsp:&nbsp</p>
+                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Username&nbsp:&nbsp</p>
+                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Password&nbsp:&nbsp</p>
             </div>
         </div>
     </div>
@@ -71,6 +72,44 @@ include('DB_Connect/session.php');
     function colorLink() {
         document.getElementById("user-profile").style.color = "#d83f07";
     }
+
+    var textWrapper = document.querySelector('.word1');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    var textWrapper1 = document.querySelector('.word2');
+    textWrapper1.innerHTML = textWrapper1.textContent.replace(/\S/g, "<span class='letter1'>$&</span>");
+
+    anime.timeline({loop: 1})
+        .add({
+            targets: '.word1 .letter, .word2 .letter1',
+            translateX: [40,0],
+            translateZ: 0,
+            opacity: [0,1],
+            easing: "easeOutExpo",
+            duration: 6000,
+            delay: (el, i) => 500 + 30 * i
+        })
+
+
+    anime.timeline({loop: 1})
+        .add({
+            targets: '.word .letter',
+            translateX: [40,0],
+            translateZ: 0,
+            opacity: [0,1],
+            easing: "easeOutExpo",
+            duration: 3000,
+            delay: (el, i) => 500 + 30 * i
+        })
+
+    anime.timeline({loop: 1})
+        .add({
+            targets: '.w',
+            scale: [9,1],
+            opacity: [0,1],
+            easing: "easeOutCirc",
+            duration: 800,
+            delay: (el, i) => 300 * i
+        })
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
