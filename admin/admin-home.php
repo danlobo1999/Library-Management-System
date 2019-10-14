@@ -49,7 +49,7 @@
         </nav>
         <div class="container-fluid" id="main">
             <div id="dashboard" class="shomepage">
-                <div id="welcome" class="card" style="height: 400px; font-size: 20px">
+                <div id="welcome" class="card" style="height: 400px; font-size: 20px; margin-top: 3%">
                     <canvas id="popChart" width="600" height="400"></canvas>
                 </div>
                 <div id="issuedbooks" class="card" >

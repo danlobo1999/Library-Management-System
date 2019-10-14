@@ -48,7 +48,48 @@ include('DB_Connect/session.php');
     </ul>
 </nav>
 <div class="container-fluid" id="main">
+    <div id="search" class="shomepage">
+        <div id="searchcard" class="card" >
+            <p style="font-size: 40px; text-align: center; color: #f1f1f1">Search for Members</p>
+            <div id="searchusers" style="padding: 2%;padding-left: 16%">
+                <form class="form-inline active-pink-3 active-pink-4" id="search">
+                    <i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i>
+                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
+                </form>
+            </div>
+            <div id="searchby">
+                <p style="display: inline-block">Search By :&nbsp</p>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" checked> First Name</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Last Name</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Username</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> ID</label>
+            </div>
+            <div id="result" class="card">
+                <div class="container" id="searchtable">
+                    <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 20px">Members</p>
+                    <table class="table table-dark">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>15</td>
+                            <td>Daniel</td>
+                            <td>Lobo</td>
+                            <td>danny</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
+    </div>
 
     <div class="footer">
 

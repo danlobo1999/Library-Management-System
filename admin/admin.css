@@ -47,8 +47,10 @@ body {
     border-radius: 0;
 }
 
-#issuedbooks , #outstandingbooks, #welcome, #admin-profile {
+#issuedbooks , #outstandingbooks, #welcome, #admin-profile, #searchcard, #result {
     margin: 2%;
+    /*margin-bottom: 2%;*/
+    padding: 2%;
 }
 
 .minicard {
@@ -77,3 +79,30 @@ body {
 #user-details {
     margin-top: 50px;
 }
+
+#searchby {
+    padding: 10px;
+    font-size: 20px;
+    color: #f1f1f1;
+
+}
+
+#searchtable {
+    text-align: left;
+}
+
+.radio-inline {
+    padding: 10px;
+
+}
+
+th, tr {
+    background-color: #101010;
+    color: white;
+    font-size: 20px;
+}
+
+th {
+    color: #d83f07;
+}
+
