@@ -18,7 +18,7 @@ include('DB_Connect/session.php');
     <a class="tablink" href="user-home.php" id="user-home" style="margin-top: 100px">Dashboard</a>
     <button class="tablink" id="user-books" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="display: inline-block">Books&nbsp&#8595;</button>
     <div class="collapse" id="collapseExample">
-        <a class="tablink" href="user-search.php" id="user-search" style="padding-left: 50px">Search&nbsp/&nbspIssue</a>
+        <a class="tablink" href="user-search.php" id="user-search" style="padding-left: 50px">Search&nbsp/&nbspBorrow</a>
         <a class="tablink" href="user-return.php" id="user-return" style="padding-left: 50px">Return&nbsp/&nbspRenew</a>
         <a class="tablink" href="user-request.php" id="user-request" style="padding-left: 50px">Request</a>
     </div>

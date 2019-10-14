@@ -21,7 +21,7 @@
             <a class="tablink" href="user-home.php" id="user-home" style="margin-top: 100px">Dashboard</a>
             <button class="tablink" id="user-books" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="display: inline-block">Books&nbsp&#8595;</button>
             <div class="collapse" id="collapseExample">
-                <a class="tablink" href="user-search.php" id="user-search" style="padding-left: 50px">Search&nbsp/&nbspIssue</a>
+                <a class="tablink" href="user-search.php" id="user-search" style="padding-left: 50px">Search&nbsp/&nbspBorrow</a>
                 <a class="tablink" href="user-return.php" id="user-return" style="padding-left: 50px">Return&nbsp/&nbspRenew</a>
                 <a class="tablink" href="user-request.php" id="user-request" style="padding-left: 50px">Request</a>
             </div>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div id="issuedbooks" class="card" >
-                    <p style="font-size: 30px; height: 300px">Issued Books</p>
+                    <p style="font-size: 30px; height: 300px">Borrowed Books</p>
                 </div>
                 <div id="outstandingbooks" class="card">
                     <p style="font-size: 30px; height: 300px">Outstanding Books</p>
@@ -65,7 +65,7 @@
             var myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ["Books you have issued", "Books you can issue"],
+                    labels: ["Books you have borrowed", "Books you can borrow"],
                     datasets: [{
                         backgroundColor: [
                             "#0d71db",
@@ -78,7 +78,7 @@
                     legend: {
                         labels: {
                             fontColor: '#f1f1f1f1',
-                            fontSize: 23,
+                            fontSize: 20,
                             padding: 20
                         }
                     }
