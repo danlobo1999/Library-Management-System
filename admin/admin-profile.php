@@ -13,7 +13,7 @@ include('DB_Connect/session.php');
     <link rel="stylesheet" href="admin.css">
 </head>
 
-<body>
+<body onload="javascript:colorLink()">
 <div class="container-fluid" id="header">
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
@@ -25,31 +25,31 @@ include('DB_Connect/session.php');
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-users.php" id="admin-home" style="text-decoration: none;">Users</a>
+            <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-home" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-add.php" id="admin-home" style="text-decoration: none;">Add&nbspBooks</a>
+            <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-issued.php" id="admin-home" style="text-decoration: none;">Issued&nbspBooks</a>
+            <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-outstanding.php" id="admin-home" style="text-decoration: none;">Outstanding&nbspBooks</a>
+            <a class="tablink" href="admin-outstanding.php" id="admin-outstanding" style="text-decoration: none;">Outstanding&nbspBooks</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-profile.php" id="admin-home" style="text-decoration: none;">Profile</a>
+            <a class="tablink" href="admin-profile.php" id="admin-profile" style="text-decoration: none;">Profile</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="../DB_Connect/logout.php" id="admin-home" style="text-decoration: none;">Logout</a>
+            <a class="tablink" href="../DB_Connect/logout.php" id="admin-logout" style="text-decoration: none;">Logout</a>
         </li>
     </ul>
 </nav>
 <div class="container-fluid" id="main">
     <div id="profile" class="shomepage">
-        <div class="card" id="admin-profile">
+        <div class="card" id="aprofile">
             <div class="minicard" id="image" >
                 <img src="../images/user.svg">
             </div>
@@ -69,6 +69,11 @@ include('DB_Connect/session.php');
 
     </div>
 </div>
+<script>
+    function colorLink() {
+        document.getElementById("admin-profile").style.color = "#d83f07";
+    }
+</script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

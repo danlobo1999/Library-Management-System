@@ -47,7 +47,7 @@ body {
     border-radius: 0;
 }
 
-#issuedbooks , #outstandingbooks, #welcome, #admin-profile, #searchcard, #result {
+#issuedbooks , #outstandingbooks, #welcome, #aprofile, #searchcard, #result, #add-books {
     margin: 2%;
     /*margin-bottom: 2%;*/
     padding: 2%;
@@ -106,3 +106,28 @@ th {
     color: #d83f07;
 }
 
+.input-field {
+    font-size: 16px;
+    width: 100%;
+    padding: 12px;
+    outline: none;
+}
+
+.input-field:focus {
+    border: 2px solid #d83f07;
+}
+
+.input-container {
+    display: -ms-flexbox;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 25px;
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+#add-books {
+    text-align: center;
+    padding: 5%;
+}

@@ -41,14 +41,14 @@ include('DB_Connect/session.php');
                 <div class="input-container">
                     <input class="input-field" type="text" placeholder="Book name" name="bknm">
                 </div>
-
                 <div class="input-container">
                     <input class="input-field" type="text" placeholder="Author's name" name="anm">
                 </div>
                 <button type="button" id="mybutton" class="btn btn-secondary">Place Request</button>
             </form>
         </div>
-    </div></div>
+    </div>
+</div>
 
 <div class="footer">
 
