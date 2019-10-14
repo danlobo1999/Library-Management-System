@@ -18,28 +18,55 @@
             <h1><strong>SFIT Online Library</strong></h1>
             <p>Your link to the past & gateway to the future.</p>
         </div>
-        <nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-            <a class="navbar-brand" href="#">Admin</a>
+        <nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+            <a class="navbar-brand" href="#">Library Admin</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <button class="tablink" onclick="openPage('dashboard',this)" id="defaultOpen">Dashboard</button>
+                    <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <button class="tablink" onclick="openPage('dashboard',this)" id="defaultOpen">Dashboard</button>
+                    <a class="tablink" href="admin-users.php" id="admin-home" style="text-decoration: none;">Users</a>
                 </li>
                 <li class="nav-item">
-                    <button class="tablink" onclick="openPage('dashboard',this)" id="defaultOpen">Dashboard</button>
+                    <a class="tablink" href="admin-books.php" id="admin-home" style="text-decoration: none;">Books</a>
                 </li>
                 <li class="nav-item">
-                    <button class="tablink" onclick="openPage('dashboard',this)" id="defaultOpen">Dashboard</button>
+                    <a class="tablink" href="admin-add.php" id="admin-home" style="text-decoration: none;">Add&nbspBooks</a>
                 </li>
                 <li class="nav-item">
-                    <button class="tablink" onclick="openPage('dashboard',this)" id="defaultOpen">Dashboard</button>
+                    <a class="tablink" href="admin-issued.php" id="admin-home" style="text-decoration: none;">Issued&nbspBooks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="tablink" href="admin-outstanding.php" id="admin-home" style="text-decoration: none;">Outstanding&nbspBooks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="tablink" href="admin-profile.php" id="admin-home" style="text-decoration: none;">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="tablink" href="../DB_Connect/logout.php" id="admin-home" style="text-decoration: none;">Logout</a>
                 </li>
             </ul>
         </nav>
-        <div class="container-fluid" id="main" style="height: 800px">
+        <div class="container-fluid" id="main">
+            <div id="dashboard" class="shomepage">
+                <div id="welcome" class="card" style="height: 400px; font-size: 20px">
+                    <canvas id="popChart" width="600" height="400"></canvas>
+                </div>
+                <div id="issuedbooks" class="card" >
+                    <p style="font-size: 30px; height: 300px">Issued Books</p>
+                </div>
+                <div id="outstandingbooks" class="card">
+                    <p style="font-size: 30px; height: 300px">Outstanding Books</p>
+                </div>
+            </div>
 
+            <div class="footer">
+
+            </div>
         </div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>
