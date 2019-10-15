@@ -73,20 +73,31 @@ include('../DB_Connect/session.php');
     </div>
     <div id="admin-add" class="shomepage">
         <div id="add-books" class="card">
-            <form class="add-form" method="post">
-                <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Add a book</p>
-                <div class="input-container">
-                    <input class="input-field" type="text" placeholder="Book name" name="bknm">
-                </div>
+            <div style="margin-left: 10%; width: 30%; margin-top: 5%">
+                <img src="../images/add_book.svg">
+            </div>
+            <div style="margin-left: 25%; margin-top: -35%">
+                <form class="add-form" method="post">
+                    <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Add a book</p>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Book name" name="bknm">
+                    </div>
 
-                <div class="input-container">
-                    <input class="input-field" type="text" placeholder="Author's name" name="anm">
-                </div>
-                <div class="input-container">
-                    <input class="input-field" type="text" placeholder="ISBN" name="isbn">
-                </div>
-                <button type="button" id="mybutton" class="btn btn-secondary">Add Book</button>
-            </form>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Author's name" name="anm">
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="ISBN" name="isbn">
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Subject" name="sub">
+                    </div>
+                    <div class="input-container">
+                        <input class="input-field" type="text" placeholder="Copies" name="copies">
+                    </div>
+                    <button type="button" id="mybutton" class="btn btn-secondary">Add Book</button>
+                </form>
+            </div>
         </div>
     </div>
 

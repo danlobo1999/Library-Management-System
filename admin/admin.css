@@ -16,7 +16,7 @@ body {
 }
 
 .navbar-custom {
-    background-color: #101010;
+    background-color: #090909;
     /*height: 45px;*/
 }
 /* change the brand and text color */
@@ -28,7 +28,7 @@ body {
 /* change the link color */
 .navbar-custom .navbar-nav .tablink {
     color: #818181;
-    background-color: #101010;
+    background-color: #090909;
     border: none;
     font-size: 20px;
     margin-left: 40px;
@@ -132,4 +132,19 @@ th {
     padding: 5%;
 }
 
+#w-user {
+    width: 60%;
+    float: left;
+    margin-left: 20%;
+}
 
+#a-pie-i{
+    width: 800px;
+    height: 800px;
+}
+
+#a-pie-o{
+    width: 800px;
+    height: 800px;
+    margin-left: 38%;
+}

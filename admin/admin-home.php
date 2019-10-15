@@ -51,14 +51,23 @@
         </nav>
         <div class="container-fluid" id="main">
             <div id="dashboard" class="shomepage">
-                <div id="welcome" class="card" style="height: 400px; font-size: 20px; margin-top: 3%">
-                    <canvas id="popChart" width="600" height="400"></canvas>
+                <div id="welcome" class="card" style="height: 400px; font-size: 20px">
+                    <div class="minicard" id="a-user">
+                        <p class="word1" style="text-align: center; font-size: 110px; color: #f1f1f1; font-family: 'American Typewriter'; letter-spacing: 2px" >Welcome</p>
+                        <p class="word2" style="text-align: center; font-size: 90px; color: #d83f07; font-family: 'American Typewriter'; letter-spacing: 3px">Daniel</p>
+                    </div>
                 </div>
-                <div id="issuedbooks" class="card" >
-                    <p style="font-size: 30px; height: 300px">Issued Books</p>
+                <div id="issuedbooks" class="card" style="height: 550px">
+                    <p style="font-size: 50px">Issued Books</p>
+                    <div class="minicard" id="a-pie-i">
+                        <canvas id="myChart1"></canvas>
+                    </div>
                 </div>
-                <div id="outstandingbooks" class="card">
-                    <p style="font-size: 30px; height: 300px">Outstanding Books</p>
+                <div id="outstandingbooks" class="card" style="height: 550px">
+                    <p style="font-size: 50px">Outstanding Books</p>
+                    <div class="minicard" id="a-pie-o">
+                        <canvas id="myChart2"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -66,10 +75,87 @@
 
             </div>
         </div>
+        <script type="text/javascript">
+            var ctx = document.getElementById("myChart1").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Books issued", "Books that can be issued"],
+                    datasets: [{
+                        backgroundColor: [
+                            "#0d71db",
+                            "#d83f07"
+                        ],
+                        data: [40, 165]
+                    }]
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: '#f1f1f1f1',
+                            fontSize: 20,
+                            padding: 20
+                        }
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            var ctx = document.getElementById("myChart2").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Outstanding Books", "Non-outstanding Books"],
+                    datasets: [{
+                        backgroundColor: [
+                            "#0d71db",
+                            "#d83f07"
+                        ],
+                        data: [5, 35]
+                    }]
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: '#f1f1f1f1',
+                            fontSize: 20,
+                            padding: 20
+                        }
+                    }
+                }
+            });
+        </script>
         <script>
             function colorLink() {
                 document.getElementById("admin-home").style.color = "#d83f07";
             }
+            var textWrapper = document.querySelector('.word1');
+            textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+            var textWrapper1 = document.querySelector('.word2');
+            textWrapper1.innerHTML = textWrapper1.textContent.replace(/\S/g, "<span class='letter1'>$&</span>");
+
+            anime.timeline({loop: 1})
+                .add({
+                    targets: '.word1 .letter, .word2 .letter1',
+                    translateX: [40,0],
+                    translateZ: 0,
+                    opacity: [0,1],
+                    easing: "easeOutExpo",
+                    duration: 6000,
+                    delay: (el, i) => 500 + 30 * i
+                })
+
+
+            anime.timeline({loop: 1})
+                .add({
+                    targets: '.word .letter',
+                    translateX: [40,0],
+                    translateZ: 0,
+                    opacity: [0,1],
+                    easing: "easeOutExpo",
+                    duration: 3000,
+                    delay: (el, i) => 500 + 30 * i
+                })
         </script>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
