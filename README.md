@@ -4,5 +4,5 @@ Implementing a library management system using HTML, CSS, JavaScript, Bootstrap 
 Import the library.sql database.
 Open index.php to get started.
 default login is :
-  username: admin
+  username: (usertype eg. admin, student, faculty)
   password: root
