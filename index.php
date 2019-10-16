@@ -8,34 +8,39 @@
             $username = test_input($_POST["usrnm"]);
             $password = test_input($_POST["psw"]);
         }
-        $sql = "SELECT UID FROM `users` WHERE `Username`='$username' AND `Password`='$password'";
+        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $active = $row['active'];
         $count = mysqli_num_rows($result);
+        $type = $row['acc_type'];
 
-        if($count == 1) {
+        if($count and $type == 'student') {
             $_SESSION['login_user'] = $username;
+            $_SESSION['login_type'] = $type;
             header("location: user/user-home.php");
             exit();
         }else {
             echo '<script language="javascript">';
             echo 'alert("Your Login Name or Password is invalid")';
-            echo '</script>';        }
+            echo '</script>';
+        }
     }
     elseif ($_POST["button"]=='flogin'){
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = test_input($_POST["usrnm"]);
             $password = test_input($_POST["psw"]);
         }
-        $sql = "SELECT UID FROM `users` WHERE `Username`='$username' AND `Password`='$password'";
+        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $active = $row['active'];
         $count = mysqli_num_rows($result);
+        $type = $row['acc_type'];
 
-        if($count == 1) {
+        if($count and $type == 'faculty') {
             $_SESSION['login_user'] = $username;
+            $_SESSION['login_type'] = $type;
             header("location: user/user-home.php");
             exit();
         }else {
@@ -48,14 +53,16 @@
             $username = test_input($_POST["usrnm"]);
             $password = test_input($_POST["psw"]);
         }
-        $sql = "SELECT UID FROM `users` WHERE `Username`='$username' AND `Password`='$password'";
+        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $active = $row['active'];
         $count = mysqli_num_rows($result);
+        $type = $row['acc_type'];
 
-        if($count == 1) {
+        if($count and $type == 'admin') {
             $_SESSION['login_user'] = $username;
+            $_SESSION['login_type'] = $type;
             header("location: admin/admin-home.php");
             exit();
         }else {

@@ -68,7 +68,7 @@
                     labels: ["Books you have borrowed", "Books you can borrow"],
                     datasets: [{
                         backgroundColor: [
-                            "#0d71db",
+                            "#ffa600",
                             "#d83f07"
                         ],
                         data: [2, 1]

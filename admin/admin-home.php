@@ -83,7 +83,7 @@
                     labels: ["Books issued", "Books that can be issued"],
                     datasets: [{
                         backgroundColor: [
-                            "#0d71db",
+                            "#ffa600",
                             "#d83f07"
                         ],
                         data: [40, 165]
@@ -108,7 +108,7 @@
                     labels: ["Outstanding Books", "Non-outstanding Books"],
                     datasets: [{
                         backgroundColor: [
-                            "#0d71db",
+                            "#ffa600",
                             "#d83f07"
                         ],
                         data: [5, 35]
