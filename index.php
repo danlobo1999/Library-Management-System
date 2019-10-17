@@ -80,8 +80,9 @@
             $username = test_input($_POST["usrnm"]);
             $password = test_input($_POST["psw"]);
             $confirmpass = test_input($_POST["cpsw"]);
+            $type = "student";
         }
-        $sql = "INSERT INTO `users` (`UID`, `first name`, `last name`, `email`, `phone`, `username`, `password`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password')";
+        $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
         if ($conn->query($sql) === TRUE) {
             echo '<script language="javascript">';
             echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
@@ -101,19 +102,17 @@
             $username = test_input($_POST["usrnm"]);
             $password = test_input($_POST["psw"]);
             $confirmpass = test_input($_POST["cpsw"]);
+            $type = "faculty";
         }
-        $sql = "INSERT INTO `users` (`UID`, `first name`, `last name`, `email`, `phone`, `username`, `password`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password')";
+        $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
         if ($conn->query($sql) === TRUE) {
             echo '<script language="javascript">';
             echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
             echo '</script>';
-            echo '<script language="JavaScript">';
-            echo 'document.getElementById("slogin").click();';
-            echo '<script>';
-
         } else {
+            $error = "Error: " . $sql . "<br>" . $conn->error;
             echo '<script language="javascript">';
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo 'alert("'.$error.'")';
             echo '</script>';
         }
     }
@@ -134,9 +133,9 @@
     <style>
         .header {
             padding: 10px;
-            text-align: center; /* center the text */
-            background: #101010; /* blue background */
-            color: #d83f07; /* white text color */
+            text-align: center;
+            background: #101010;
+            color: #d83f07;
             line-height: 0.4cm;
         }
 
@@ -148,9 +147,6 @@
             width:25%;
             float: right;
             margin-top: -3.5%;
-            /* position: fixed;
-            top: 80px;
-            right: 10px; */
         }
 
         .tablink {
@@ -244,8 +240,6 @@
         }
 
         .input-container-r {
-            /* display: -ms-flexbox; IE10 */
-            /* display: flex; */
             display: inline-block;
             width: 49%;
             margin-bottom: 15px;
@@ -295,7 +289,7 @@
             var fname = registration_form.fname.value;
             var lname = registration_form.lname.value;
             var email = registration_form.email.value;
-            var phone = registration_form.phone.value;
+            var phone = parseInt(registration_form.phone.value);
             var username = registration_form.usrnm.value;
             var password = registration_form.psw.value;
             var confpassword = registration_form.cpsw.value;
@@ -304,7 +298,7 @@
             var nameregex = new RegExp("^[A-Za-z]+");
             var emailregex = new RegExp("[a-zA-Z0-9]{2,}@[a-zA-Z0-9]{2,}\.[a-zA-Z]{2,}");
             var passregex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-            // var phoneregex = new RegExp("/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/");
+            var phoneregex = new RegExp("^[0-9]{10}$");
 
             if (!userregex.test(username)) {
                 alert('Username should only contain A-Z, a-z, 0-9, -, _.');
@@ -316,10 +310,10 @@
                 alert('Name should only contain A-Z, a-z');
                 return false;
             }
-            // else if (!phoneregex.test(phone)) {
-            // alert('Invalid phone number.');
-            // return false;
-            // }
+            else if (!phoneregex.test(phone)) {
+            alert('Invalid phone number.');
+            return false;
+            }
             else if (!passregex.test(password)) {
                 alert('Invalid password.');
                 return false;
