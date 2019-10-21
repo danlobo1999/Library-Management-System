@@ -31,7 +31,7 @@
         </div>
 
         <div class="header">
-            <button class="openbtn" onclick="openNav()" style="float: left">☰</button> 
+            <button class="openbtn" onclick="openNav()" style="float: left">☰</button>
             <h1><strong>SFIT Online Library</strong></h1>
             <p>Your link to the past & gateway to the future.</p>
         </div> 
@@ -44,14 +44,20 @@
                     </div>
                     <div class="minicard" id="w-user">
                         <p class="word1" style="text-align: center; font-size: 90px; color: #f1f1f1; font-family: 'American Typewriter'; letter-spacing: 2px; margin-top: 3%" >Welcome</p>
-                        <p class="word2" style="text-align: center; font-size: 70px; color: #d83f07; font-family: 'American Typewriter'; letter-spacing: 3px">Daniel</p>
+                        <?php
+                            $username = $_SESSION['login_user'];
+                            $sql = "select f_name from member where `username` = '$username'";
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                            echo '<p class="word2" style="text-align: center; font-size: 70px; color: #d83f07; font-family: \'American Typewriter\'; letter-spacing: 3px">'.$row["f_name"].'</p>';
+                        ?>
                     </div>
                 </div>
                 <div id="issuedbooks" class="card" >
-                    <p style="font-size: 30px; height: 300px">Borrowed Books</p>
+                    <p style="font-size: 30px">Borrowed Books</p>
                 </div>
                 <div id="outstandingbooks" class="card">
-                    <p style="font-size: 30px; height: 300px">Outstanding Books</p>
+                    <p style="font-size: 30px">Outstanding Books</p>
                 </div>
             </div>
         </div>

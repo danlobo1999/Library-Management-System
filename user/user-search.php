@@ -38,18 +38,16 @@ include('../DB_Connect/session.php');
             <div id="searchcard" class="card" >
                 <p style="font-size: 40px; text-align: center; color: #f1f1f1">Search for Books</p>
                 <div id="searchbooks" style="padding: 2%;padding-left: 16%">
-                    <form class="form-inline active-pink-3 active-pink-4" id="search">
-                        <i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i>
-                        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
-                    </form>
+                    <form class="form-inline active-pink-3 active-pink-4" id="search" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                        <button class="btn" type="submit" value="s_button" name='button' id="s_button"><i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i></button>
+                        <input name="searchbar" type="text" class="form-control form-control-sm ml-3 w-75"  placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
                 </div>
                 <div id="searchby">
                     <p style="display: inline-block">Search By :&nbsp</p>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" checked> Name</label>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Author</label>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Category</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Name" checked> Name</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Author"> Author</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Category"> Category</label>
                 </div>
-
             </div>
             <div id="result" class="card">
                 <div class="container" id="searchtable">
@@ -65,6 +63,29 @@ include('../DB_Connect/session.php');
                         </tr>
                         </thead>
                         <tbody>
+                        <?php
+                        if ($_POST["button"]=='s_button') {
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                $search = test_input($_POST['searchbar']);
+                                $search_by = test_input($_POST['optradio']);
+                                if($search != ''){
+                                    $sql = "SELECT f_name FROM `member` WHERE `username` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Name: '.$row["f_name"].'")';
+                                    echo '</script>';
+                                }
+                            }
+                        }
+                        function test_input($data) {
+                            $data = trim($data);
+                            $data = stripslashes($data);
+                            $data = htmlspecialchars($data);
+                            return $data;
+                        }
+                        ?>
+
                         <tr>
                             <td>1234</td>
                             <td>Theory of Computer Science</td>
