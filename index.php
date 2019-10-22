@@ -1,8 +1,14 @@
 <?php
-
     include("DB_Connect/connect.php");
     session_start();
+    
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+        function test_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
         if ($_POST["button"]=='slogin'){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $username = test_input($_POST["usrnm"]);
@@ -116,13 +122,8 @@
                 echo '</script>';
             }
         }
-        function test_input($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
     }
+
 ?>
 
 <!DOCTYPE html>
