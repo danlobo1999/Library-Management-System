@@ -1,127 +1,129 @@
 <?php
-
     include("DB_Connect/connect.php");
     session_start();
+    
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        function test_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+        if ($_POST["button"]=='slogin'){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $username = test_input($_POST["usrnm"]);
+                $password = test_input($_POST["psw"]);
+            }
+            $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+            $active = $row['active'];
+            $count = mysqli_num_rows($result);
+            $type = $row['acc_type'];
 
-    if ($_POST["button"]=='slogin'){
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = test_input($_POST["usrnm"]);
-            $password = test_input($_POST["psw"]);
+            if($count and $type == 'student') {
+                $_SESSION['login_user'] = $username;
+                $_SESSION['login_type'] = $type;
+                header("location: user/user-home.php");
+                exit();
+            }else {
+                echo '<script language="javascript">';
+                echo 'alert("Your Login Name or Password is invalid")';
+                echo '</script>';
+            }
         }
-        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        $active = $row['active'];
-        $count = mysqli_num_rows($result);
-        $type = $row['acc_type'];
+        elseif ($_POST["button"]=='flogin'){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $username = test_input($_POST["usrnm"]);
+                $password = test_input($_POST["psw"]);
+            }
+            $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+            $active = $row['active'];
+            $count = mysqli_num_rows($result);
+            $type = $row['acc_type'];
 
-        if($count and $type == 'student') {
-            $_SESSION['login_user'] = $username;
-            $_SESSION['login_type'] = $type;
-            header("location: user/user-home.php");
-            exit();
-        }else {
-            echo '<script language="javascript">';
-            echo 'alert("Your Login Name or Password is invalid")';
-            echo '</script>';
+            if($count and $type == 'faculty') {
+                $_SESSION['login_user'] = $username;
+                $_SESSION['login_type'] = $type;
+                header("location: user/user-home.php");
+                exit();
+            }else {
+                echo '<script language="javascript">';
+                echo 'alert("Your Login Name or Password is invalid")';
+                echo '</script>';        }
         }
-    }
-    elseif ($_POST["button"]=='flogin'){
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = test_input($_POST["usrnm"]);
-            $password = test_input($_POST["psw"]);
-        }
-        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        $active = $row['active'];
-        $count = mysqli_num_rows($result);
-        $type = $row['acc_type'];
+        elseif ($_POST["button"]=='alogin'){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $username = test_input($_POST["usrnm"]);
+                $password = test_input($_POST["psw"]);
+            }
+            $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+            $active = $row['active'];
+            $count = mysqli_num_rows($result);
+            $type = $row['acc_type'];
 
-        if($count and $type == 'faculty') {
-            $_SESSION['login_user'] = $username;
-            $_SESSION['login_type'] = $type;
-            header("location: user/user-home.php");
-            exit();
-        }else {
-            echo '<script language="javascript">';
-            echo 'alert("Your Login Name or Password is invalid")';
-            echo '</script>';        }
-    }
-    elseif ($_POST["button"]=='alogin'){
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = test_input($_POST["usrnm"]);
-            $password = test_input($_POST["psw"]);
+            if($count and $type == 'admin') {
+                $_SESSION['login_user'] = $username;
+                $_SESSION['login_type'] = $type;
+                header("location: admin/admin-home.php");
+                exit();
+            }else {
+                echo '<script language="javascript">';
+                echo 'alert("Your Login Name or Password is invalid")';
+                echo '</script>';
+            }
         }
-        $sql = "SELECT UID, acc_type FROM `member` WHERE `username`= '$username' AND `password`='$password'";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        $active = $row['active'];
-        $count = mysqli_num_rows($result);
-        $type = $row['acc_type'];
+        elseif ($_POST["button"]=='sregister'){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $fname = test_input($_POST["fname"]);
+                $lname = test_input($_POST["lname"]);
+                $email = test_input($_POST["email"]);
+                $phone = test_input($_POST["phone"]);
+                $username = test_input($_POST["usrnm"]);
+                $password = test_input($_POST["psw"]);
+                $confirmpass = test_input($_POST["cpsw"]);
+                $type = "student";
+            }
+            $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
+                echo '</script>';
+            } else {
+                echo '<script language="javascript">';
+                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo '</script>';
+            }
+        }
+        elseif ($_POST["button"]=='fregister') {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $fname = test_input($_POST["fname"]);
+                $lname = test_input($_POST["lname"]);
+                $email = test_input($_POST["email"]);
+                $phone = test_input($_POST["phone"]);
+                $username = test_input($_POST["usrnm"]);
+                $password = test_input($_POST["psw"]);
+                $confirmpass = test_input($_POST["cpsw"]);
+                $type = "faculty";
+            }
+            $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
+                echo '</script>';
+            } else {
+                $error = "Error: " . $sql . "<br>" . $conn->error;
+                echo '<script language="javascript">';
+                echo 'alert("'.$error.'")';
+                echo '</script>';
+            }
+        }
+    }
 
-        if($count and $type == 'admin') {
-            $_SESSION['login_user'] = $username;
-            $_SESSION['login_type'] = $type;
-            header("location: admin/admin-home.php");
-            exit();
-        }else {
-            echo '<script language="javascript">';
-            echo 'alert("Your Login Name or Password is invalid")';
-            echo '</script>';
-        }
-    }
-    elseif ($_POST["button"]=='sregister'){
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $fname = test_input($_POST["fname"]);
-            $lname = test_input($_POST["lname"]);
-            $email = test_input($_POST["email"]);
-            $phone = test_input($_POST["phone"]);
-            $username = test_input($_POST["usrnm"]);
-            $password = test_input($_POST["psw"]);
-            $confirmpass = test_input($_POST["cpsw"]);
-            $type = "student";
-        }
-        $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
-        if ($conn->query($sql) === TRUE) {
-            echo '<script language="javascript">';
-            echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
-            echo '</script>';
-        } else {
-            echo '<script language="javascript">';
-            echo "Error: " . $sql . "<br>" . $conn->error;
-            echo '</script>';
-        }
-    }
-    elseif ($_POST["button"]=='fregister') {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $fname = test_input($_POST["fname"]);
-            $lname = test_input($_POST["lname"]);
-            $email = test_input($_POST["email"]);
-            $phone = test_input($_POST["phone"]);
-            $username = test_input($_POST["usrnm"]);
-            $password = test_input($_POST["psw"]);
-            $confirmpass = test_input($_POST["cpsw"]);
-            $type = "faculty";
-        }
-        $sql = "INSERT INTO `member` (`UID`, `f_name`, `l_name`, `email`, `phone`, `username`, `password`, `acc_type`) VALUES (NULL, '$fname', '$lname', '$email', '$phone', '$username', '$password', '$type')";
-        if ($conn->query($sql) === TRUE) {
-            echo '<script language="javascript">';
-            echo 'alert("Registration Successful. You will now be redirected to the Login page.")';
-            echo '</script>';
-        } else {
-            $error = "Error: " . $sql . "<br>" . $conn->error;
-            echo '<script language="javascript">';
-            echo 'alert("'.$error.'")';
-            echo '</script>';
-        }
-    }
-    function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
 ?>
 
 <!DOCTYPE html>
