@@ -1,5 +1,18 @@
 <?php
-     include('../DB_Connect/session.php');
+    include('../DB_Connect/session.php');
+    $username = $_SESSION['login_user'];
+    $usertype = $_SESSION['login_type'];
+    $sql = "SELECT COUNT(*) FROM `borrow` WHERE `issued` = '1' AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_row($result);
+    $borrowed = $row[0];
+    echo '<script language="javascript">';
+    echo 'alert("B"'.$borrowed.'")';
+    echo '</script>';
+    $borrow_total = '5';
+    if ($usertype == "faculty") {
+        $borrow_total = '15';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -53,11 +66,39 @@
                         ?>
                     </div>
                 </div>
-                <div id="issuedbooks" class="card" >
+                <div id="issuedbooks" class="card" style="padding: 2%">
                     <p style="font-size: 30px">Borrowed Books</p>
+                    <?php
+                        if($borrowed>0){
+                            $sql = "SELECT a.Title, a.Author FROM books a, borrow b WHERE a.ISBN = b.isbn AND b.issued = '1' AND b.id IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result->num_rows > 0) {
+                                while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                    echo "<p style='font-size: 25px; color: #d83f07; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
+                                }
+                            }
+                        }else{
+                            echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have not yet borrowed any books.</p>";
+                        }
+                    ?>
                 </div>
-                <div id="outstandingbooks" class="card">
+                <div id="outstandingbooks" class="card" style="padding: 2%">
                     <p style="font-size: 30px">Outstanding Books</p>
+                    <?php
+                    if($borrowed>0){
+                        $sql = "SELECT a.Title, a.Author FROM books a, borrow b WHERE a.ISBN = b.isbn AND b.issued = '1' AND b.id IN (SELECT UID FROM `member` WHERE `username` = '$username'  AND b.return_date < CURRENT_DATE)";
+                        $result = mysqli_query($conn, $sql);
+                        if ($result->num_rows > 0) {
+                            while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                echo "<p style='font-size: 25px; color: #d83f07; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
+                            }
+                        }else{
+                            echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have no outstanding books.</p>";
+                        }
+                    }else{
+                        echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have no outstanding books.</p>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -77,7 +118,7 @@
                             "#ffa600",
                             "#d83f07"
                         ],
-                        data: [2, 1]
+                        data: [<?php echo $borrowed?>, <?php echo $borrow_total - $borrowed?>]
                     }]
                 },
                 options: {

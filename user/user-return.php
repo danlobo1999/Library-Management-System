@@ -46,21 +46,52 @@ include('../DB_Connect/session.php');
                             <th>Name</th>
                             <th>Issue Date</th>
                             <th>Return Date</th>
-                            <th>Overdue</th>
+                            <th>Days Overdue</th>
+                            <th>Renew Count</th>
                             <th>Renew</th>
-                            <th>Return</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1234</td>
-                            <td>Theory of Computer Science</td>
-                            <td>07-10-19</td>
-                            <td>17-10-19</td>
-                            <td>-</td>
-                            <td><button type="button" id="mybutton" class="btn btn-secondary">Renew</button></td>
-                            <td><button type="button" id="mybutton" class="btn btn-secondary">Return</button></td>
-                        </tr>
+                        <?php
+                            $username = $_SESSION["login_user"];
+                            $sql = "SELECT a.isbn, b.title, a.issue_date, a.return_date, a.renew_count FROM borrow a, books b WHERE a.isbn = b.isbn AND a.issued = '1' AND a.id IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                                    $value = $row["isbn"];
+                                    $overdue = 0;
+                                    $renew_count = $row["renew_count"];
+                                    $today = date("Y-m-d");
+                                    if ($row["return_date"] < $today) {
+                                        $overdue = dateDiffInDays($row["return_date"], $today);
+                                    }
+                                    echo "<tr><td><form method='post' action=''>" . $row["isbn"] . "</td>
+                                            <td>" . $row["title"] . "</td>
+                                            <td>" . $row["issue_date"] . "</td>
+                                            <td>" . $row["return_date"] . "</td>
+                                            <td>" . $overdue . "</td>
+                                            <td>" . $row["renew_count"] . "</td>
+                                            <td><input onclick='return confirm(\"Are you sure you want to renew this book?\")' type=\"submit\" name=\"action\" value=\"Renew\"/><input type=\"hidden\" name=\"id\" value=\"$value\"></form></td>
+                                    </tr>";
+                                }
+                            }
+                            if ($_POST["action"] && $_POST['id']) {
+                                $isbn = $_POST['id'];
+                                if($renew_count<2 and $overdue==0){
+                                    mysqli_query($conn,"UPDATE `borrow` SET `renew_count` = `renew_count`+1 WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username') AND `isbn` = '$isbn'");
+                                    mysqli_query($conn,"UPDATE `borrow` SET `return_date` = DATE_ADD(`return_date`,INTERVAL 7 DAY) WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')");
+                                }else{
+                                    echo '<script language="javascript">';
+                                    echo 'alert("You cannot renew this book!")';
+                                    echo '</script>';
+                                }
+                            }
+                            function dateDiffInDays($date1, $date2)
+                            {
+                                $diff = strtotime($date2) - strtotime($date1);
+                                return abs(round($diff / 86400));
+                            }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -95,7 +126,3 @@ include('../DB_Connect/session.php');
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-

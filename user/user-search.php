@@ -46,7 +46,7 @@ include('../DB_Connect/session.php');
                     <p style="display: inline-block">Search By :&nbsp</p>
                     <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Name" checked> Name</label>
                     <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Author"> Author</label>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Category"> Category</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Category"> Subject</label>
                 </div>
             </div>
             <div id="result" class="card">
@@ -68,16 +68,98 @@ include('../DB_Connect/session.php');
                             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $search = test_input($_POST['searchbar']);
                                 $search_by = test_input($_POST['optradio']);
-                                if($search != ''){
-                                    $sql = "SELECT f_name FROM `member` WHERE `username` LIKE '%$search%'";
+                                if($search != '' and $search_by = "Name"){
+                                    $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Title` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
-                                    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                                    echo '<script language="javascript">';
-                                    echo 'alert("Name: '.$row["f_name"].'")';
-                                    echo '</script>';
+
+                                }
+                                elseif ($search != '' and $search_by = "Author"){
+                                    $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Author` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $search_by = "Category"){
+                                    $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Category` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                if ($result->num_rows > 0) {
+                                    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                        $value = $row["ISBN"];
+                                        echo "<tr><td><form method='post' action=''>".$row["ISBN"]."</td>
+                                                <td>".$row["Title"]."</td>
+                                                <td>".$row["Author"]."</td>
+                                                <td>".$row["Category"]."</td>
+                                                <td><input onclick='return confirm(\"Are you sure you want to borrow this book?\")' type=\"submit\" name=\"action\" value=\"Borrow\"/><input type=\"hidden\" name=\"id\" value=\"$value\"></form></td>
+                                            </tr>";
+                                    }
                                 }
                             }
                         }
+                        if ($_POST["action"] && $_POST['id']) {
+                            $isbn = $_POST['id'];
+                            $sql = "SELECT copies FROM `books` WHERE `ISBN` = '$isbn'";
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                            $copies = $row["copies"];
+                            if($copies>0) {
+                                $username = $_SESSION['login_user'];
+                                $usertype = $_SESSION['login_type'];
+                                $sql = "SELECT UID FROM `member` WHERE `username` = '$username'";
+                                $result = mysqli_query($conn, $sql);
+                                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                                $uid = $row["UID"];
+                                $borrow_total = '5';
+                                if ($usertype == "faculty") {
+                                    $borrow_total = '15';
+                                }
+                                $sql = "SELECT COUNT(*) FROM `borrow` WHERE `isbn` = '$isbn' AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                                $result = mysqli_query($conn, $sql);
+                                $row = mysqli_fetch_row($result);
+                                $taken = $row[0];
+                                if($taken==0) {
+                                    $sql = "SELECT COUNT(*) FROM `borrow` WHERE `issued` = '1' AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                                    $result = mysqli_query($conn, $sql);
+                                    $row = mysqli_fetch_row($result);
+                                    $borrow_count = $row[0];
+                                    if ($borrow_count < $borrow_total){
+                                        $sql = "SELECT COUNT(*) FROM `borrow` WHERE `issued` = '1' AND `return_date` < CURRENT_DATE AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                                        $result = mysqli_query($conn, $sql);
+                                        $row = mysqli_fetch_row($result);
+                                        $overdue = $row[0];
+                                        if($overdue == 0){
+                                            $sql = "INSERT INTO `borrow`(`id`, `isbn`, `issue_date`, `return_date`, `renew_count`, `issued`) VALUES ('$uid','$isbn',CURRENT_DATE , DATE_ADD(now(),INTERVAL 7 DAY),'0','0')";
+                                            if ($conn->query($sql) === TRUE) {
+                                                mysqli_query($conn,"UPDATE `books` SET `Copies` = `Copies`-1 WHERE `ISBN` = '$isbn'");
+                                                echo '<script language="javascript">';
+                                                echo 'alert("Success! Your borrow request has been sent to the admin for approval.")';
+                                                echo '</script>';
+                                            }else {
+                                                echo '<script language="javascript">';
+                                                echo "Error: " . $sql . "<br>" . $conn->error;
+                                                echo '</script>';
+                                            }
+                                        }else{
+                                            echo '<script language="javascript">';
+                                            echo 'alert("You have book/s overdue! You cannot borrow more books!")';
+                                            echo '</script>';
+                                        }
+                                    } else {
+                                        echo '<script language="javascript">';
+                                        echo 'alert("You have borrowed the maximum amount of books!")';
+                                        echo '</script>';
+                                    }
+                                }else{
+                                    echo '<script language="javascript">';
+                                    echo 'alert("You have already borrowed this book!")';
+                                    echo '</script>';
+                                }
+                            }
+                            else{
+                                echo '<script language="javascript">';
+                                echo 'alert("There are no more copies left of this book!")';
+                                echo '</script>';
+                            }
+                        }
+
                         function test_input($data) {
                             $data = trim($data);
                             $data = stripslashes($data);
@@ -85,28 +167,12 @@ include('../DB_Connect/session.php');
                             return $data;
                         }
                         ?>
-
-                        <tr>
-                            <td>1234</td>
-                            <td>Theory of Computer Science</td>
-                            <td>Daniel Lobo</td>
-                            <td>TCS</td>
-                            <td><button type="button" id="mybutton" class="btn btn-secondary">Borrow</button></td>
-                        </tr>
-                        <tr>
-                            <td>1234</td>
-                            <td>Theory of Computer Science</td>
-                            <td>Daniel Lobo</td>
-                            <td>TCS</td>
-                            <td><button type="button" id="mybutton" class="btn btn-secondary">Borrow</button></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="footer">
 
     </div>
