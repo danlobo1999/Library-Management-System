@@ -18,8 +18,8 @@ include('../DB_Connect/session.php');
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-    <a class="navbar-brand" href="#">Library Admin</a>
+<nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+    <a class="navbar-brand" href="#">Admin</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -28,11 +28,15 @@ include('../DB_Connect/session.php');
             <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+        </li>
+        <li class="nav-item">
+            <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
         </li>
         <li class="nav-item">
             <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
+
         <li class="nav-item">
             <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
@@ -52,16 +56,15 @@ include('../DB_Connect/session.php');
         <div id="searchcard" class="card" >
             <p style="font-size: 40px; text-align: center; color: #f1f1f1">Search for Books</p>
             <div id="searchbooks" style="padding: 2%;padding-left: 16%">
-                <form class="form-inline active-pink-3 active-pink-4" id="search">
-                    <i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i>
-                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
-                </form>
+                <form class="form-inline active-pink-3 active-pink-4" id="search" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <button class="btn" type="submit" value="s_button" name='button' id="s_button"><i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i></button>
+                    <input name="searchbar" type="text" class="form-control form-control-sm ml-3 w-75"  placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
             </div>
             <div id="searchby">
                 <p style="display: inline-block">Search By :&nbsp</p>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" checked> Title</label>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Author</label>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Subject</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Name" checked> Name</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Author"> Author</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Category"> Subject</label>
             </div>
         </div>
         <div id="result" class="card">
@@ -78,13 +81,48 @@ include('../DB_Connect/session.php');
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1598</td>
-                        <td>Theory of Computer Science</td>
-                        <td>Daniel Lobo</td>
-                        <td>TCS</td>
-                        <td>3</td>
-                    </tr>
+                   <?php
+                        if ($_POST["button"]=='s_button') {
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                $search = test_input($_POST['searchbar']);
+                                if (isset($_POST['radio'])) {
+                                    $radio_input = test_input($_POST['radio']);
+                                }
+                                if($search != '' and $radio_input = "Name"){
+                                    $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Title` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $radio_input = "Author"){
+                                    $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Author` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $radio_input = "Category"){
+                                    $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Category` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                else{
+                                    $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books`";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                if ($result->num_rows > 0) {
+                                    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                        echo "<tr><td>".$row["ISBN"]."</td>
+                                                <td>".$row["Title"]."</td>
+                                                <td>".$row["Author"]."</td>
+                                                <td>".$row["Category"]."</td>
+                                                <td>".$row["Copies"]."</td>
+                                            </tr>";
+                                    }
+                                }
+                            }
+                        }
+                       function test_input($data) {
+                           $data = trim($data);
+                           $data = stripslashes($data);
+                           $data = htmlspecialchars($data);
+                           return $data;
+                       }
+                   ?>
                     </tbody>
                 </table>
             </div>

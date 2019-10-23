@@ -36,9 +36,9 @@ include('../DB_Connect/session.php');
 <div id="main">
     <div id="return" class="shomepage">
         <div class="card" id="return_books">
-            <div id="result" class="card">
+            <div id="result" class="card" >
                 <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Issued Books</p>
-                <div class="container" id="searchtable">
+                <div class="container" id="searchtable"  style="padding: 0%">
                     <table class="table table-dark">
                         <thead>
                         <tr>
@@ -79,7 +79,7 @@ include('../DB_Connect/session.php');
                                 $isbn = $_POST['id'];
                                 if($renew_count<2 and $overdue==0){
                                     mysqli_query($conn,"UPDATE `borrow` SET `renew_count` = `renew_count`+1 WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username') AND `isbn` = '$isbn'");
-                                    mysqli_query($conn,"UPDATE `borrow` SET `return_date` = DATE_ADD(`return_date`,INTERVAL 7 DAY) WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')");
+                                    mysqli_query($conn,"UPDATE `borrow` SET `return_date` = DATE_ADD(`return_date`,INTERVAL 7 DAY) WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username') AND `isbn` = '$isbn'");
                                 }else{
                                     echo '<script language="javascript">';
                                     echo 'alert("You cannot renew this book!")';

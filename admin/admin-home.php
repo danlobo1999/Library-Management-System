@@ -1,5 +1,17 @@
 <?php
     include('../DB_Connect/session.php');
+    $sql ="SELECT COUNT(*) FROM `borrow` WHERE `issued`='1'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_NUM);
+    $issued= $row[0];
+    $sql ="SELECT SUM(copies) FROM `books`";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_NUM);
+    $total= $row[0];
+    $sql ="SELECT COUNT(*) FROM `borrow` WHERE `issued`='1' AND `return_date`<CURRENT_DATE ";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_NUM);
+    $outstanding= $row[0];
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +33,7 @@
             <p>Your link to the past & gateway to the future.</p>
         </div>
         <nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
-            <a class="navbar-brand" href="#">Library Admin</a>
+            <a class="navbar-brand" href="#">Admin</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -30,11 +42,15 @@
                     <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
                 </li>
                 <li class="nav-item">
-                    <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+                    <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
                 </li>
                 <li class="nav-item">
                     <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
                 </li>
@@ -54,18 +70,24 @@
                 <div id="welcome" class="card" style="height: 400px; font-size: 20px">
                     <div class="minicard" id="a-user">
                         <p class="word1" style="text-align: center; font-size: 110px; color: #f1f1f1; font-family: 'American Typewriter'; letter-spacing: 2px" >Welcome</p>
-                        <p class="word2" style="text-align: center; font-size: 90px; color: #d83f07; font-family: 'American Typewriter'; letter-spacing: 3px">Daniel</p>
+                        <?php
+                        $username = $_SESSION['login_user'];
+                        $sql = "select f_name from member where `username` = '$username'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                        echo '<p class="word2" style="text-align: center; font-size: 70px; color: #d83f07; font-family: \'American Typewriter\'; letter-spacing: 3px">'.$row["f_name"].'</p>';
+                        ?>
                     </div>
                 </div>
                 <div id="issuedbooks" class="card" style="height: 550px">
                     <p style="font-size: 50px">Issued Books</p>
-                    <div class="minicard" id="a-pie-i">
+                    <div class="minicard" id="a-pie-i" style="align-self: center">
                         <canvas id="myChart1"></canvas>
                     </div>
                 </div>
                 <div id="outstandingbooks" class="card" style="height: 550px">
                     <p style="font-size: 50px">Outstanding Books</p>
-                    <div class="minicard" id="a-pie-o">
+                    <div class="minicard" id="a-pie-o" style="align-self: center; margin-right: 38%">
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
@@ -84,13 +106,14 @@
                     datasets: [{
                         backgroundColor: [
                             "#ffa600",
-                            "#d83f07"
+                            "#1e75bf"
                         ],
-                        data: [40, 165]
+                        data: [<?php echo $issued?>, <?php echo $total-$issued?>]
                     }]
                 },
                 options: {
                     legend: {
+                        position:'left',
                         labels: {
                             fontColor: '#f1f1f1f1',
                             fontSize: 20,
@@ -109,13 +132,14 @@
                     datasets: [{
                         backgroundColor: [
                             "#ffa600",
-                            "#d83f07"
+                            "#4e0014"
                         ],
-                        data: [5, 35]
+                        data: [<?php echo $outstanding?>, <?php echo $issued-$outstanding?>]
                     }]
                 },
                 options: {
                     legend: {
+                        position:'right',
                         labels: {
                             fontColor: '#f1f1f1f1',
                             fontSize: 20,

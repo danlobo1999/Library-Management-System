@@ -1,5 +1,6 @@
 <?php
 include('../DB_Connect/session.php');
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +19,8 @@ include('../DB_Connect/session.php');
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-    <a class="navbar-brand" href="#">Library Admin</a>
+<nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+    <a class="navbar-brand" href="#">Admin</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -28,11 +29,15 @@ include('../DB_Connect/session.php');
             <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+        </li>
+        <li class="nav-item">
+            <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
         </li>
         <li class="nav-item">
             <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
+
         <li class="nav-item">
             <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
@@ -54,19 +59,24 @@ include('../DB_Connect/session.php');
             <table class="table table-dark">
                 <thead>
                 <tr>
-                    <th>ISBN</th>
-                    <th>Title</th>
+                    <th>Book Title</th>
                     <th>Author</th>
-                    <th>Copies</th>
+                    <th>Count</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1598</td>
-                    <td>Theory of Computer Science</td>
-                    <td>Daniel Lobo</td>
-                    <td>5</td>
-                </tr>
+                <?php
+                $sql = "SELECT title, author, count(*) FROM `request` GROUP BY title, author";
+                $result = mysqli_query($conn, $sql);
+                if ($result->num_rows > 0) {
+                    while($row = mysqli_fetch_array($result,MYSQLI_NUM)){
+                        echo "<tr><td>".$row[0]."</td>
+                                <td>".$row[1]."</td>
+                                <td>".$row[2]."</td>
+                                </tr>";
+                    }
+                }
+                ?>
                 </tbody>
             </table>
         </div>
@@ -77,8 +87,8 @@ include('../DB_Connect/session.php');
                 <img src="../images/add_book.svg">
             </div>
             <div style="margin-left: 25%; margin-top: -35%">
-                <form class="add-form" method="post">
-                    <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px">Add a book</p>
+                <form class="add-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px"> Add a book</p>
                     <div class="input-container">
                         <input class="input-field" type="text" placeholder="Book name" name="bknm">
                     </div>
@@ -95,11 +105,44 @@ include('../DB_Connect/session.php');
                     <div class="input-container">
                         <input class="input-field" type="text" placeholder="Copies" name="copies">
                     </div>
-                    <button type="button" id="mybutton" class="btn btn-secondary">Add Book</button>
+                    <button type="submit" id="mybutton" value="add_books" class="btn btn-secondary">Add Book</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_POST["mybutton"] == 'add_books') {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $title = test_input($_POST["bknm"]);
+                $author = test_input($_POST["anm"]);
+                $isbn = test_input($_POST["isbn"]);
+                $subject = test_input($_POST["sub"]);
+                $copies = test_input($_POST["copies"]);
+            }
+            $sql = "INSERT INTO `books`(`ISBN`, `Title`, `Category`, `Author`, `Copies`) VALUES ('$isbn','$title','$subject','$author','$copies')";
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("Book successfully added.")';
+                echo '</script>';
+            } else {
+                $error = "Error: " . $sql . "<br>" . $conn->error;
+                echo '<script language="javascript">';
+                echo 'alert("' . $error . '")';
+                echo '</script>';
+            }
+            mysqli_query($conn, "DELETE FROM `request` WHERE `title` = '$title' AND `author` = '$author'");
+        }
+        function test_input($data)
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+    }
+    ?>
 
     <div class="footer">
 

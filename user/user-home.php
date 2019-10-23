@@ -6,9 +6,6 @@
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_row($result);
     $borrowed = $row[0];
-    echo '<script language="javascript">';
-    echo 'alert("B"'.$borrowed.'")';
-    echo '</script>';
     $borrow_total = '5';
     if ($usertype == "faculty") {
         $borrow_total = '15';
@@ -74,11 +71,11 @@
                             $result = mysqli_query($conn, $sql);
                             if ($result->num_rows > 0) {
                                 while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                    echo "<p style='font-size: 25px; color: #d83f07; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
+                                    echo "<p style='font-size: 20px; color: #a7ced8; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
                                 }
                             }
                         }else{
-                            echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have not yet borrowed any books.</p>";
+                            echo "<p style='font-size: 20px; color: #a7ced8; text-align: center'>You have not yet borrowed any books.</p>";
                         }
                     ?>
                 </div>
@@ -90,13 +87,13 @@
                         $result = mysqli_query($conn, $sql);
                         if ($result->num_rows > 0) {
                             while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                echo "<p style='font-size: 25px; color: #d83f07; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
+                                echo "<p style='font-size: 20px; color: #d8425c; text-align: left; margin-left: 40px'><i class=\"fa fa-circle\" aria-hidden=\"true\">&nbsp".$row["Title"]."&nbsp-&nbsp".$row["Author"]."</i></p>";
                             }
                         }else{
-                            echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have no outstanding books.</p>";
+                            echo "<p style='font-size: 20px; color: #d8425c; text-align: center'>You have no outstanding books.</p>";
                         }
                     }else{
-                        echo "<p style='font-size: 25px; color: #d83f07; text-align: center'>You have no outstanding books.</p>";
+                        echo "<p style='font-size: 20px; color: #d8425c; text-align: center'>You have no outstanding books.</p>";
                     }
                     ?>
                 </div>
@@ -116,7 +113,7 @@
                     datasets: [{
                         backgroundColor: [
                             "#ffa600",
-                            "#d83f07"
+                            "#1e87d8"
                         ],
                         data: [<?php echo $borrowed?>, <?php echo $borrow_total - $borrowed?>]
                     }]

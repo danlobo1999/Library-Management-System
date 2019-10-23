@@ -146,5 +146,8 @@ th {
 #a-pie-o{
     width: 800px;
     height: 800px;
-    margin-left: 38%;
+}
+
+.dropdown-menu, .dropdown{
+    text-align: left;
 }

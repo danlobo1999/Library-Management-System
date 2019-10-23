@@ -19,8 +19,8 @@ include('../DB_Connect/session.php');
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-    <a class="navbar-brand" href="#">Library Admin</a>
+<nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+    <a class="navbar-brand" href="#">Admin</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -29,11 +29,15 @@ include('../DB_Connect/session.php');
             <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+        </li>
+        <li class="nav-item">
+            <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
         </li>
         <li class="nav-item">
             <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
+
         <li class="nav-item">
             <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
@@ -55,14 +59,26 @@ include('../DB_Connect/session.php');
                 <img src="../images/user.svg">
             </div>
             <div class="minicard" id="user-name">
-                <p class="word1" style="text-align: center; font-size: 60px; color: #f1f1f1">Daniel Lobo</p>
-                <p class="word2" style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : Admin</p>
+                <?php
+                $username = $_SESSION['login_user'];
+                $sql = "select f_name, l_name, acc_type from `member` where `username` = '$username'";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                echo '<p class="word1" style="text-align: center; font-size: 60px; color: #f1f1f1">'.$row["f_name"].' '.$row["l_name"].'</p>';
+                echo '<p class="word2" style="text-align: center; font-size: 25px; color: #f1f1f1">Account type : '.$row["acc_type"].'</p>';
+                ?>
             </div>
             <div class="card" id="user-details" style="width: 50%; margin-top: 80px; margin-left: 30%">
-                <p class="w" style="text-align: center; font-size: 30px; color: #f1f1f1">User Details</p><br>
-                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Email&nbsp:&nbsp</p>
-                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Username&nbsp:&nbsp</p>
-                <p class="w" style="text-align: left; font-size: 25px; color: #d83f07">Password&nbsp:&nbsp</p>
+                <?php
+                $username = $_SESSION['login_user'];
+                $sql = "select email, phone from `member` where `username` = '$username'";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                echo '<p class="w" style="text-align: center; margin-left: -20%;font-size: 30px; color: #f1f1f1">User Details</p><br>';
+                echo '<p class="w" style="float: left; width: 50%;margin-left: 20%; text-align: left; font-size: 25px; color: #f1f1f1">Username&nbsp:&nbsp</p><p class="w" style="margin-left: 50%;margin-top: -8%; text-align: left; font-size: 25px; color: #d83f07">'.$username.'</p>';
+                echo '<p class="w" style="float: left; width: 50%;margin-left: 20%; text-align: left; font-size: 25px; color: #f1f1f1">Email&nbsp:&nbsp</p><p class="w" style="margin-left: 50%;margin-top: -8%; text-align: left; font-size: 25px; color: #d83f07">'.$row["email"].'</p>';
+                echo '<p class="w" style="float: left; width: 50%;margin-left: 20%; text-align: left; font-size: 25px; color: #f1f1f1">Phone&nbsp:&nbsp</p><p class="w" style="margin-left: 50%;margin-top: -8%; text-align: left; font-size: 25px; color: #d83f07">'.$row["phone"].'</p>';
+                ?>
             </div>
         </div>
     </div>

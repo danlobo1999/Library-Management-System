@@ -44,9 +44,9 @@ include('../DB_Connect/session.php');
                 </div>
                 <div id="searchby">
                     <p style="display: inline-block">Search By :&nbsp</p>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Name" checked> Name</label>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Author"> Author</label>
-                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" value="Category"> Subject</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Name" checked> Name</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Author"> Author</label>
+                    <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="Category"> Subject</label>
                 </div>
             </div>
             <div id="result" class="card">
@@ -67,17 +67,18 @@ include('../DB_Connect/session.php');
                         if ($_POST["button"]=='s_button') {
                             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $search = test_input($_POST['searchbar']);
-                                $search_by = test_input($_POST['optradio']);
-                                if($search != '' and $search_by = "Name"){
+                                if (isset($_POST['radio'])) {
+                                    $radio_input = test_input($_POST['radio']);
+                                }
+                                if($search != '' and $radio_input = "Name"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Title` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
-
                                 }
-                                elseif ($search != '' and $search_by = "Author"){
+                                elseif ($search != '' and $radio_input = "Author"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Author` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $search_by = "Category"){
+                                elseif ($search != '' and $radio_input = "Category"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Category` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }

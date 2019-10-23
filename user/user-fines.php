@@ -1,5 +1,10 @@
 <?php
 include('../DB_Connect/session.php');
+$username = $_SESSION["login_user"];
+$sql = "SELECT COUNT(*) FROM `borrow` WHERE `issued` = '1' AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_row($result);
+$borrowed = $row[0];
 ?>
 
 <!DOCTYPE html>
@@ -50,13 +55,32 @@ include('../DB_Connect/session.php');
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1234</td>
-                            <td>Theory of Computer Science</td>
-                            <td>07-10-19</td>
-                            <td>3</td>
-                            <td>6</td>
-                        </tr>
+                        <?php
+                            if($borrowed>0){
+                            $sql = "SELECT a.isbn, b.Title, a.return_date FROM borrow a, books b WHERE a.isbn = b.ISBN AND a.return_date < CURRENT_DATE AND a.issued = '1' AND a.id IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                            $result = mysqli_query($conn, $sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                                        $overdue = 0;
+                                        $today = date("Y-m-d");
+                                        if ($row["return_date"] < $today) {
+                                            $overdue = dateDiffInDays($row["return_date"], $today);
+                                        }
+                                        $fine = 5 * $overdue;
+                                        echo "<tr><td>" . $row["isbn"] . "</td>
+                                                <td>" . $row["Title"] . "</td>
+                                                <td>" . $row["return_date"] . "</td>
+                                                <td>" . $overdue . "</td>
+                                                <td>" . $fine . "</td></tr>";
+
+                                    }
+                                }
+                            }
+                            function dateDiffInDays($date1, $date2){
+                                $diff = strtotime($date2) - strtotime($date1);
+                                return abs(round($diff / 86400));
+                            }
+                        ?>
                         </tbody>
                     </table>
                 </div>

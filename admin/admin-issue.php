@@ -54,7 +54,7 @@ include('../DB_Connect/session.php');
 <div class="container-fluid" id="main">
     <div id="result" class="card">
         <div class="container" id="searchtable">
-            <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 20px">Outstanding Books</p>
+            <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 20px">Borrow Requests</p>
             <table class="table table-dark">
                 <thead>
                 <tr>
@@ -63,32 +63,30 @@ include('../DB_Connect/session.php');
                     <th>Title</th>
                     <th>Issue Date</th>
                     <th>Return Date</th>
-                    <th>Days Overdue</th>
+                    <th>Issue</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                    $sql = "SELECT a.id, a.isbn, b.Title, a.issue_date, a.return_date FROM borrow a, books b WHERE a.issued='1' AND a.isbn = b.ISBN AND `return_date`<CURRENT_DATE ";
+                    $sql = "SELECT a.id, a.isbn, b.Title, a.issue_date, a.return_date FROM borrow a, books b WHERE a.issued='0' AND a.isbn = b.ISBN";
                     $result = mysqli_query($conn, $sql);
                     if ($result->num_rows > 0) {
                         while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                            $overdue = 0;
-                            $today = date("Y-m-d");
-                            if ($row["return_date"] < $today) {
-                                $overdue = dateDiffInDays($row["return_date"], $today);
-                            }
-                            echo "<tr><td>".$row["id"]."</td>
-                                    <td>".$row["isbn"]."</td>
-                                    <td>".$row["Title"]."</td>
-                                    <td>".$row["issue_date"]."</td>
-                                    <td>".$row["return_date"]."</td>
-                                    <td>". $overdue ."</td>
-                                    </tr>";
+                            $value1 = $row["id"];
+                            $value2 = $row["isbn"];
+                            echo "<tr><td><form method='post' action=''>".$row["id"]."</td>
+                                <td>".$row["isbn"]."</td>
+                                <td>".$row["Title"]."</td>
+                                <td>".$row["issue_date"]."</td>
+                                <td>".$row["return_date"]."</td>
+                                <td><input type=\"submit\" name=\"action\" value=\"Issue\"/><input type=\"hidden\" name=\"id1\" value=\"$value1\"><input type=\"hidden\" name=\"id2\" value=\"$value2\"></form></td>
+                                </tr>";
                         }
                     }
-                    function dateDiffInDays($date1, $date2){
-                        $diff = strtotime($date2) - strtotime($date1);
-                        return abs(round($diff / 86400));
+                    if ($_POST["action"] && $_POST['id1'] && $_POST['id2']) {
+                        $id = $_POST['id1'];
+                        $isbn = $_POST['id2'];
+                        mysqli_query($conn,"UPDATE `borrow` SET `issued` = '1' WHERE `id` = '$id' AND `isbn` = '$isbn'");
                     }
                 ?>
                 </tbody>
@@ -102,7 +100,7 @@ include('../DB_Connect/session.php');
 </div>
 <script>
     function colorLink() {
-        document.getElementById("admin-outstanding").style.color = "#d83f07";
+        document.getElementById("admin-issue").style.color = "#d83f07";
     }
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

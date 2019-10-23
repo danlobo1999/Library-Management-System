@@ -18,8 +18,8 @@ include('../DB_Connect/session.php');
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-    <a class="navbar-brand" href="#">Library Admin</a>
+<nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+    <a class="navbar-brand" href="#">Admin</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -28,11 +28,15 @@ include('../DB_Connect/session.php');
             <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+        </li>
+        <li class="nav-item">
+            <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
         </li>
         <li class="nav-item">
             <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
+
         <li class="nav-item">
             <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
@@ -52,17 +56,16 @@ include('../DB_Connect/session.php');
         <div id="searchcard" class="card" >
             <p style="font-size: 40px; text-align: center; color: #f1f1f1">Search for Members</p>
             <div id="searchusers" style="padding: 2%;padding-left: 16%">
-                <form class="form-inline active-pink-3 active-pink-4" id="search">
-                    <i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i>
-                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
-                </form>
+                <form class="form-inline active-pink-3 active-pink-4" id="search" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <button class="btn" type="submit" value="s_button" name='button' id="s_button"><i class="fa fa-search" aria-hidden="true" style="font-size: 35px; color: #d83f07"></i></button>
+                    <input name="searchbar" type="text" class="form-control form-control-sm ml-3 w-75"  placeholder="Search" aria-label="Search" style="font-size: 25px; color: #111111">
             </div>
             <div id="searchby">
                 <p style="display: inline-block">Search By :&nbsp</p>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio" checked> First Name</label>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Last Name</label>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> Username</label>
-                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="optradio"> ID</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="f_name" checked> First Name</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="l_name" > Last Name</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="u_name" > Username</label>
+                <label class="radio-inline" style="color: #d83f07"><input type="radio" name="radio" value="id" > ID</label>
             </div>
         </div>
         <div id="result" class="card">
@@ -79,13 +82,52 @@ include('../DB_Connect/session.php');
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>15</td>
-                        <td>Daniel</td>
-                        <td>Lobo</td>
-                        <td>danny</td>
-                        <td>Student</td>
-                    </tr>
+                        <?php
+                        if ($_POST["button"]=='s_button') {
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                $search = test_input($_POST['searchbar']);
+                                if (isset($_POST['radio'])) {
+                                    $radio_input = test_input($_POST['radio']);
+                                }
+                                if($search != '' and $radio_input = "f_name"){
+                                    $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `f_name` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $radio_input = "l_name"){
+                                    $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `l_name` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $radio_input = "u_name"){
+                                    $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `username` ='$search'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                elseif ($search != '' and $radio_input = "id"){
+                                    $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `UID` ='$search'";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                else{
+                                    $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member`";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                                if ($result->num_rows > 0) {
+                                    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                        echo "<tr><td>".$row["UID"]."</td>
+                                                <td>".$row["f_name"]."</td>
+                                                <td>".$row["l_name"]."</td>
+                                                <td>".$row["username"]."</td>
+                                                <td>".$row["acc_type"]."</td>
+                                            </tr>";
+                                    }
+                                }
+                            }
+                        }
+                        function test_input($data) {
+                            $data = trim($data);
+                            $data = stripslashes($data);
+                            $data = htmlspecialchars($data);
+                            return $data;
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>

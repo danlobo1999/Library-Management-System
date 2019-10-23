@@ -18,8 +18,8 @@ include('../DB_Connect/session.php');
     <h1><strong>SFIT Online Library</strong></h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<nav class="navbar navbar-expand-sm navbar-custom sticky-top">
-    <a class="navbar-brand" href="#">Library Admin</a>
+<nav class="navbar navbar-expand-sm navbar-custom sticky-top " >
+    <a class="navbar-brand" href="#">Admin</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="tablink" href="admin-home.php" id="admin-home" style="text-decoration: none;">Dashboard</a>
@@ -28,11 +28,15 @@ include('../DB_Connect/session.php');
             <a class="tablink" href="admin-users.php" id="admin-members" style="text-decoration: none;">Members</a>
         </li>
         <li class="nav-item">
-            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Books</a>
+            <a class="tablink" href="admin-books.php" id="admin-books" style="text-decoration: none;">Search&nbspBooks</a>
+        </li>
+        <li class="nav-item">
+            <a class="tablink" href="admin-issue.php" id="admin-issue" style="text-decoration: none;">Issue&nbspBooks</a>
         </li>
         <li class="nav-item">
             <a class="tablink" href="admin-add.php" id="admin-add" style="text-decoration: none;">Add&nbspBooks</a>
         </li>
+
         <li class="nav-item">
             <a class="tablink" href="admin-issued.php" id="admin-issued" style="text-decoration: none;">Issued&nbspBooks</a>
         </li>
@@ -54,23 +58,37 @@ include('../DB_Connect/session.php');
             <table class="table table-dark">
                 <thead>
                 <tr>
+                    <th>Member ID</th>
                     <th>ISBN</th>
                     <th>Title</th>
-                    <th>Author</th>
-                    <th>Member ID</th>
-                    <th>Username</th>
-                    <th>Issue Date</th>
+                    <th>Issue date</th>
+                    <th>Return date</th>
+                    <th>Returned</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1598</td>
-                    <td>Theory of Computer Science</td>
-                    <td>Daniel Lobo</td>
-                    <td>15</td>
-                    <td>danny</td>
-                    <td>23-10-19</td>
-                </tr>
+                <?php
+                $sql = "SELECT a.id, a.isbn, b.Title, a.issue_date, a.return_date FROM borrow a, books b WHERE a.issued='1' AND a.isbn = b.ISBN";
+                $result = mysqli_query($conn, $sql);
+                if ($result->num_rows > 0) {
+                    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                        $value1 = $row["id"];
+                        $value2 = $row["isbn"];
+                        echo "<tr><td><form method='post' action=''>".$row["id"]."</td>
+                                <td>".$row["isbn"]."</td>
+                                <td>".$row["Title"]."</td>
+                                <td>".$row["issue_date"]."</td>
+                                <td>".$row["return_date"]."</td>
+                                <td><input type=\"submit\" name=\"action\" value=\"Returned\"/><input type=\"hidden\" name=\"id1\" value=\"$value1\"><input type=\"hidden\" name=\"id2\" value=\"$value2\"></form></td>
+                                </tr>";
+                    }
+                }
+                if ($_POST["action"] && $_POST['id1'] && $_POST['id2']) {
+                    $id = $_POST['id1'];
+                    $isbn = $_POST['id2'];
+                    mysqli_query($conn,"DELETE FROM `borrow` WHERE `id` = '$id' AND `isbn` = '$isbn'");
+                }
+                ?>
                 </tbody>
             </table>
         </div>
