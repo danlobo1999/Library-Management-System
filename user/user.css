@@ -215,6 +215,17 @@ th {
     margin-top: 50px;
 }
 
+.footer{
+    padding: 10px;
+    text-align: center;
+    background: #101010;
+    color: #d83f07;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height: 20%;
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {

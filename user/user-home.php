@@ -100,8 +100,17 @@
             </div>
         </div>
 
-        <div class="footer">
-
+        <div class="footer" style=" padding: 10px;
+    text-align: center;
+    background: #101010;
+    color: #d83f07;
+    position:relative;
+    bottom:0;
+    width:100%;
+    height: 20%;">
+            <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
+            <br>
+            <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
         </div>
 
         <script type="text/javascript">

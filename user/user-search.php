@@ -70,16 +70,19 @@ include('../DB_Connect/session.php');
                                 if (isset($_POST['radio'])) {
                                     $radio_input = test_input($_POST['radio']);
                                 }
-                                if($search != '' and $radio_input = "Name"){
+                                if($search != '' and $radio_input == "Name"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Title` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "Author"){
+                                elseif ($search != '' and $radio_input == "Author"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Author` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "Category"){
+                                elseif ($search != '' and $radio_input =="Category"){
                                     $sql = "SELECT ISBN, Title, Author, Category FROM `books` WHERE `Category` LIKE '%$search%'";
+                                    $result = mysqli_query($conn, $sql);
+                                }else{
+                                    $sql = "SELECT ISBN, Title, Author, Category FROM `books`";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result->num_rows > 0) {
@@ -117,7 +120,7 @@ include('../DB_Connect/session.php');
                                 $row = mysqli_fetch_row($result);
                                 $taken = $row[0];
                                 if($taken==0) {
-                                    $sql = "SELECT COUNT(*) FROM `borrow` WHERE `issued` = '1' AND `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+                                    $sql = "SELECT COUNT(*) FROM `borrow` WHERE `id` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
                                     $result = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_row($result);
                                     $borrow_count = $row[0];
@@ -127,7 +130,11 @@ include('../DB_Connect/session.php');
                                         $row = mysqli_fetch_row($result);
                                         $overdue = $row[0];
                                         if($overdue == 0){
-                                            $sql = "INSERT INTO `borrow`(`id`, `isbn`, `issue_date`, `return_date`, `renew_count`, `issued`) VALUES ('$uid','$isbn',CURRENT_DATE , DATE_ADD(now(),INTERVAL 7 DAY),'0','0')";
+                                            if($usertype=="student") {
+                                                $sql = "INSERT INTO `borrow`(`id`, `isbn`, `issue_date`, `return_date`, `renew_count`, `issued`) VALUES ('$uid','$isbn',CURRENT_DATE , DATE_ADD(now(),INTERVAL 7 DAY),'0','0')";
+                                            }else{
+                                                $sql = "INSERT INTO `borrow`(`id`, `isbn`, `issue_date`, `return_date`, `renew_count`, `issued`) VALUES ('$uid','$isbn',CURRENT_DATE , DATE_ADD(now(),INTERVAL 1 YEAR),'0','0')";
+                                            }
                                             if ($conn->query($sql) === TRUE) {
                                                 mysqli_query($conn,"UPDATE `books` SET `Copies` = `Copies`-1 WHERE `ISBN` = '$isbn'");
                                                 echo '<script language="javascript">';
@@ -174,10 +181,11 @@ include('../DB_Connect/session.php');
             </div>
         </div>
     </div>
-    <div class="footer">
-
-    </div>
-
+<!--    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--        <br>-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--    </div>-->
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";

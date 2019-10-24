@@ -88,15 +88,15 @@ include('../DB_Connect/session.php');
                                 if (isset($_POST['radio'])) {
                                     $radio_input = test_input($_POST['radio']);
                                 }
-                                if($search != '' and $radio_input = "Name"){
+                                if($search != '' and $radio_input == "Name"){
                                     $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Title` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "Author"){
+                                elseif ($search != '' and $radio_input == "Author"){
                                     $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Author` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "Category"){
+                                elseif ($search != '' and $radio_input == "Category"){
                                     $sql = "SELECT ISBN, Title, Author, Category, Copies FROM `books` WHERE `Category` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
@@ -130,9 +130,11 @@ include('../DB_Connect/session.php');
 
     </div>
 
-    <div class="footer">
-
-    </div>
+<!--    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--        <br>-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--    </div>-->
 </div>
 <script>
     function colorLink() {

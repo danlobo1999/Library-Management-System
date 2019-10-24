@@ -48,16 +48,18 @@ include('../DB_Connect/session.php');
                     <div class="input-container">
                         <input class="input-field" type="text" placeholder="Author's name" name="anm">
                     </div>
-                    <button type="submit" name="action" id="mybutton" class="btn btn-secondary">Place Request</button>
+                    <button type="submit" name="submit" id="mybutton" class="btn btn-secondary">Place Request</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="footer">
-
-</div>
+<!--<div class="footer" style="padding: 2%; bottom: 0; text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--    <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--    <br>-->
+<!--    <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--</div>-->
 
 <?php
     function test_input($data) {
@@ -66,27 +68,31 @@ include('../DB_Connect/session.php');
         $data = htmlspecialchars($data);
         return $data;
     }
-    if ($_POST["action"]){
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_SESSION['login_user'];
-            $name = test_input($_POST["bknm"]);
-            $author = test_input($_POST["anm"]);
-            $sql = "SELECT R_ID FROM request WHERE `title` = '$name' AND `UID` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+    if(isset($_POST["submit"])){
+        $username = $_SESSION['login_user'];
+        $name = test_input($_POST["bknm"]);
+        $author = test_input($_POST["anm"]);
+        $sql = "SELECT R_ID FROM request WHERE `title` = '$name' AND `UID` IN (SELECT UID FROM `member` WHERE `username` = '$username')";
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows == 0) {
+            $sql = "SELECT UID FROM `member` WHERE `username` = '$username'";
             $result = mysqli_query($conn, $sql);
-            if ($result->num_rows == 0) {
-                $sql = "SELECT UID FROM `member` WHERE `username` = '$username'";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                $uid = $row["UID"];
-                mysqli_query($conn, "INSERT INTO `request`(`R_ID`, `UID`, `title`, `author`) VALUES (NULL, '$uid', '$name', '$author')");
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $uid = $row["UID"];
+            $sql = "INSERT INTO `request`(`R_ID`, `UID`, `title`, `author`) VALUES (NULL, '$uid', '$name', '$author')";
+            if ($conn->query($sql) === TRUE) {
                 echo '<script language="javascript">';
                 echo 'alert("You have successfully requested this book.")';
                 echo '</script>';
             } else {
                 echo '<script language="javascript">';
-                echo 'alert("You have already requested this book.")';
+                echo "Error: " . $sql . "<br>" . $conn->error;
                 echo '</script>';
             }
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("You have already requested this book.")';
+            echo '</script>';
         }
     }
 ?>

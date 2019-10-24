@@ -87,16 +87,18 @@ include('../DB_Connect/session.php');
                     $id = $_POST['id1'];
                     $isbn = $_POST['id2'];
                     mysqli_query($conn,"DELETE FROM `borrow` WHERE `id` = '$id' AND `isbn` = '$isbn'");
+                    mysqli_query($conn, "UPDATE `books` SET `Copies` = `Copies`+1 WHERE `ISBN` = '$isbn'");
                 }
                 ?>
                 </tbody>
             </table>
         </div>
     </div>
-
-    <div class="footer">
-
-    </div>
+<!--    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--        <br>-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--    </div>-->
 </div>
 <script>
     function colorLink() {

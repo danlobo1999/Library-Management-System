@@ -1,6 +1,5 @@
 <?php
 include('../DB_Connect/session.php');
-session_start();
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +86,7 @@ session_start();
                 <img src="../images/add_book.svg">
             </div>
             <div style="margin-left: 25%; margin-top: -35%">
-                <form class="add-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                <form class="add-form" method="post" action="">
                     <p style="text-align: center; font-size: 30px; color: #f1f1f1; padding: 15px; padding-top: 5px"> Add a book</p>
                     <div class="input-container">
                         <input class="input-field" type="text" placeholder="Book name" name="bknm">
@@ -105,49 +104,44 @@ session_start();
                     <div class="input-container">
                         <input class="input-field" type="text" placeholder="Copies" name="copies">
                     </div>
-                    <button type="submit" id="mybutton" value="add_books" class="btn btn-secondary">Add Book</button>
+                    <button type="submit" name="submit" id="mybutton" value="add_books" class="btn btn-secondary">Add Book</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        if ($_POST["mybutton"] == 'add_books') {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $title = test_input($_POST["bknm"]);
-                $author = test_input($_POST["anm"]);
-                $isbn = test_input($_POST["isbn"]);
-                $subject = test_input($_POST["sub"]);
-                $copies = test_input($_POST["copies"]);
-            }
-            $sql = "INSERT INTO `books`(`ISBN`, `Title`, `Category`, `Author`, `Copies`) VALUES ('$isbn','$title','$subject','$author','$copies')";
-            if ($conn->query($sql) === TRUE) {
-                echo '<script language="javascript">';
-                echo 'alert("Book successfully added.")';
-                echo '</script>';
-            } else {
-                $error = "Error: " . $sql . "<br>" . $conn->error;
-                echo '<script language="javascript">';
-                echo 'alert("' . $error . '")';
-                echo '</script>';
-            }
-            mysqli_query($conn, "DELETE FROM `request` WHERE `title` = '$title' AND `author` = '$author'");
-        }
-        function test_input($data)
-        {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
+<!--    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--        <br>-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--    </div>-->
+<?php
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
-    ?>
-
-    <div class="footer">
-
-    </div>
-</div>
+    if(isset($_POST["submit"])){
+        $title = test_input($_POST["bknm"]);
+        $author = test_input($_POST["anm"]);
+        $isbn = test_input($_POST["isbn"]);
+        $subject = test_input($_POST["sub"]);
+        $copies = test_input($_POST["copies"]);
+        $sql = "INSERT INTO books (`ISBN`, `Title`, `Category`, `Author`, `Copies`) VALUES ('$isbn','$title','$subject','$author','$copies')";
+        if ($conn->query($sql) === TRUE) {
+            echo '<script language="javascript">';
+            echo 'alert("You have successfully requested this book.")';
+            echo '</script>';
+        } else {
+            echo '<script language="javascript">';
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo '</script>';
+        }
+        $sql = "DELETE FROM `request` WHERE `title` = '$title' AND `author` = '$author'";
+        mysqli_query($conn, $sql);
+    }
+?>
 <script>
     function colorLink() {
         document.getElementById("admin-add").style.color = "#d83f07";

@@ -89,19 +89,19 @@ include('../DB_Connect/session.php');
                                 if (isset($_POST['radio'])) {
                                     $radio_input = test_input($_POST['radio']);
                                 }
-                                if($search != '' and $radio_input = "f_name"){
+                                if($search != '' and $radio_input == "f_name"){
                                     $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `f_name` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "l_name"){
+                                elseif ($search != '' and $radio_input == "l_name"){
                                     $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `l_name` LIKE '%$search%'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "u_name"){
+                                elseif ($search != '' and $radio_input == "u_name"){
                                     $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `username` ='$search'";
                                     $result = mysqli_query($conn, $sql);
                                 }
-                                elseif ($search != '' and $radio_input = "id"){
+                                elseif ($search != '' and $radio_input == "id"){
                                     $sql = "SELECT UID, f_name, l_name, username, acc_type FROM `member` WHERE `UID` ='$search'";
                                     $result = mysqli_query($conn, $sql);
                                 }
@@ -134,9 +134,11 @@ include('../DB_Connect/session.php');
         </div>
     </div>
 
-    <div class="footer">
-
-    </div>
+<!--    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>-->
+<!--        <br>-->
+<!--        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>-->
+<!--    </div>-->
 </div>
 <script>
     function colorLink() {

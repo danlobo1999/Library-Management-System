@@ -283,6 +283,17 @@
         .txt2:hover {
             opacity: 1;
         }
+
+        .footer{
+            padding: 10px;
+            text-align: center;
+            background: #101010;
+            color: #d83f07;
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height: 20%;
+        }
     </style>
     <script type="text/javascript">
         var validate;
@@ -317,7 +328,7 @@
             return false;
             }
             else if (!passregex.test(password)) {
-                alert('Invalid password.');
+                alert('Invalid password. Password should contain atleast 1 Uppercase, 1 special symbol and 8 characters');
                 return false;
             }
             else if (confpassword != password) {
@@ -451,10 +462,12 @@
         <div class="input-container-r">
             <input class="input-field-r" style="margin-left: 1%" type="password" placeholder="Confirm Password" name="cpsw" required>
         </div>
-        <button type="submit" class="btn" style="font-size: 16px; letter-spacing: 0.02cm; font-weight: bold" value="fregister" name='button'>Register</button>
+        <button type="submit" class="btn" onclick="return validate()" style="font-size: 16px; letter-spacing: 0.02cm; font-weight: bold" value="fregister" name='button'>Register</button>
     </form>
 </div>
+
 </body>
+
 <script>
     function openPage(pageName, elmnt) {
         // Hide all elements with class="login" by default */

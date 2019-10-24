@@ -82,8 +82,10 @@ include('../DB_Connect/session.php');
             </div>
         </div>
     </div>
-    <div class="footer">
-
+    <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">
+        <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
+        <br>
+        <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
     </div>
 </div>
 <script>
