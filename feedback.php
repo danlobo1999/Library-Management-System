@@ -99,10 +99,11 @@ include('DB_Connect/session.php');
 </head>
 <body>
 <div class="header">
+    <button class="openbtn" onclick="history.back()" style="float: left; background-color: #101010; color: #f1f1f1; border: none; font-size: 40px">&#x2190;</button>
     <h1>SFIT Online Library</h1>
     <p>Your link to the past & gateway to the future.</p>
 </div>
-<div id="FacultyRegister" class="register">
+<div class="register">
     <form class="register-form" method="post" action="" name="register">
         <h2 style="color: #d83f07; font-size: 30px;">Feedback</h2>
         <div class="input-container">
@@ -123,6 +124,20 @@ include('DB_Connect/session.php');
         </div>
         <button type="submit" class="btn" style="font-size: 20px; letter-spacing: 0.02cm; font-weight: bold" value="fregister" name='submit'>Submit</button>
     </form>
+</div>
+<div class="footer" style="padding: 15px;
+    text-align: left;
+    background: #101010;
+    color: #d83f07;
+    position:relative;
+    bottom:0;
+    width:98%;
+    height: 20%;font-size: 25px">
+    <a style="padding: 10px; color: #d83f07; text-decoration: none" href="about.php" >About The creators</a>
+    <br>
+    <br>
+    <br>
+
 </div>
 </body>
 </html>

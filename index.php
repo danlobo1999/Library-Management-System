@@ -466,6 +466,10 @@
     </form>
 </div>
 
+<div class="footer" style="padding: 15px; margin-top: 150px;text-align: left;background: #101010;color: #d83f07;position:relative;bottom:0;width:100%;height:100%;font-size: 25px;box-shadow: 0 50vh 0 50vh #101010;">
+    <a style="padding: 5px; color: #d83f07; text-decoration: none" href="about.php" >About The creators</a>
+    <br><br>
+</div>
 </body>
 
 <script>

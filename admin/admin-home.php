@@ -93,10 +93,10 @@
                 </div>
             </div>
 
-            <div class="footer" style="padding: 2%;text-align: left;font-size: 20px ;background: #101010;color: #d83f07;width:100%;height:100%;">
-                <a style="color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
-                <br>
-                <a style="color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
+            <div class="footer" style="padding: 15px;text-align: left;background: #101010;color: #d83f07;position:relative;bottom:0;width:100%;height:100%;font-size: 25px;box-shadow: 0 50vh 0 50vh #101010;">
+                <a style="padding: 5px; color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
+                <br><br>
+                <a style="padding: 5px;color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
             </div>
         </div>
         <script type="text/javascript">

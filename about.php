@@ -79,6 +79,7 @@
 </head>
 <body>
     <div class="header">
+        <button class="openbtn" onclick="history.back()" style="float: left; background-color: #101010; color: #f1f1f1; border: none; font-size: 40px">&#x2190;</button>
         <h1>SFIT Online Library</h1>
         <p>Your link to the past & gateway to the future.</p>
     </div>
@@ -117,5 +118,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
