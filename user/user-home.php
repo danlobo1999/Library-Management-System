@@ -97,14 +97,17 @@
                     }
                     ?>
                 </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
             </div>
         </div>
 
-        <div class="footer" style="padding: 15px;text-align: left;background: #101010;color: #d83f07;position:relative;bottom:0;width:100%;height:100%;font-size: 25px;box-shadow: 0 50vh 0 50vh #101010;">
-            <a style="padding: 5px; color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
-            <br><br>
-            <a style="padding: 5px;color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
-        </div>
+
 
         <script type="text/javascript">
             var ctx = document.getElementById("myChart").getContext('2d');
@@ -179,5 +182,11 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <div class="footer" style="padding: 15px;text-align: left;background: #101010;color: #d83f07;position:relative;bottom:0;width:100%;height:100%;font-size: 25px;box-shadow: 0 50vh 0 50vh #101010;">
+            <a style="padding: 5px; color: #d83f07; text-decoration: none" href="../about.php" >About The creators</a>
+            <br><br>
+            <a style="padding: 5px;color: #d83f07; text-decoration: none" href="../feedback.php" >Submit Feedback</a>
+        </div>
+
     </body>
 </html>
